@@ -1,6 +1,0 @@
-data compression is the process of reducing the size of data without losing information.
-huffman coding is a popular algorithm used for lossless data compression.
-by assigning shorter codes to more frequent characters, it reduces the overall size.
-data compression is the process of reducing the size of data without losing information.
-huffman coding is a popular algorithm used for lossless data compression.
-by assigning shorter codes to more frequent characters, it reduces the overall size.
