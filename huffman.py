@@ -2,47 +2,44 @@ import heapq
 from collections import Counter, namedtuple
 
 
-class Node(namedtuple("Node", ["char", "freq", "left", "right"])):
-    def __lt__(self, other):
-        return self.freq < other.freq
+Node = namedtuple("Node", ["char", "freq", "left", "right"])
 
-
-def build_huffman_tree(text):
+def build_tree(text):
     frequency = Counter(text)
-    heap = [Node(char, freq, None, None) for char, freq in frequency.items()]
+    heap = []
+    count = 0
+    for char, freq in frequency.items():
+        heap.append([freq, count, Node(char, freq, None, None)])
+        count += 1
     heapq.heapify(heap)
     while len(heap) > 1:
-        left = heapq.heappop(heap)
-        right = heapq.heappop(heap)
+        left = heapq.heappop(heap)[2]
+        right = heapq.heappop(heap)[2]
         merged = Node(None, left.freq + right.freq, left, right)
-        heapq.heappush(heap, merged)
-    return heap[0]
+        heapq.heappush(heap, [merged.freq, count, merged])
+        count += 1
+    return heap[0][2]
 
 
-def build_codes(node, prefix="", code_map=None):
-    if code_map is None:
-        code_map = {}
+def build_codes(node, prefix="", codebook={}):
     if node.char is not None:
-        code_map[node.char] = prefix
+        codebook[node.char] = prefix
     else:
-        build_codes(node.left, prefix + "0", code_map)
-        build_codes(node.right, prefix + "1", code_map)
-    return code_map
+        build_codes(node.left, prefix + "0", codebook)
+        build_codes(node.right, prefix + "1", codebook)
+    return codebook
 
 
-def huffman_encode(text):
-    tree = build_huffman_tree(text)
-    codes = build_codes(tree)
-    encoded_text = ''.join(codes[char] for char in text)
-    return encoded_text, tree
+def encode(text, codebook):
+    return "".join(codebook[char] for char in text)
 
 
-def huffman_decode(encoded_text, tree):
-    decoded_text = ""
-    node = tree
-    for bit in encoded_text:
-        node = node.left if bit == '0' else node.right
-        if node.char:
-            decoded_text += node.char
-            node = tree
-    return decoded_text
+def decode(encoded, node):
+    decoded = ""
+    current = node
+    for bit in encoded:
+        current = current.left if bit == "0" else current.right
+        if current.char is not None:
+            decoded += current.char
+            current = node
+    return decoded

@@ -2,7 +2,7 @@
 
 A simple and efficient Python implementation of the **Huffman Coding** algorithm for **lossless text compression**. This project allows you to compress and decompress text files using Huffman coding, making it an educational and practical resource for anyone learning data compression algorithms.
 
-![Huffman Tree Example](https://upload.wikimedia.org/wikipedia/commons/5/5a/Huffman_tree_Visualisation.svg)
+[Huffman Tree Example](https://en.wikipedia.org/wiki/Huffman_coding)
 
 ---
 
@@ -79,6 +79,7 @@ This project uses Python’s built-in:
 .
 ├── compress.py              # Main compressor script
 ├── decompress.py            # Main decompressor script
+├── huffman.py.              # Huffman algorithm
 ├── input.txt                # Your source text file
 ├── output_compressed.txt    # Encoded binary string
 ├── output_tree.pkl          # Serialized Huffman tree
